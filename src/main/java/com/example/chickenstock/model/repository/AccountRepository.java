@@ -30,4 +30,13 @@ public class AccountRepository implements JDBCRepository {
         }
         return accounts;
     }
+
+    public void save(Account account) throws Exception {
+        try (Connection conn = getConnection(URL, USER, PASSWORD)) {
+            Statement stmt = conn.createStatement();
+            String query = "INSERT INTO accounts (nickname) VALUES ( '%s')".formatted(account.nickname()); // 작은따옴표 주의!
+            int rowsAffected = stmt.executeUpdate(query);
+            System.out.println("Rows affected: " + rowsAffected);
+        }
+    }
 }
